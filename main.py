@@ -8,10 +8,8 @@
 # Use basic python
 from fastapi import FastAPI
 from uuid import UUID 
-from typing import Optional
 
 app = FastAPI()
-
 
 students = {}
 
