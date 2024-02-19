@@ -8,6 +8,7 @@
 # Use basic python
 from fastapi import FastAPI
 from uuid import UUID 
+from typing import Optional
 
 app = FastAPI()
 
@@ -38,17 +39,9 @@ def get_single_student(id):
         return "Student not found"
     return {"message": "success", "data": student}
 
-# Get single student by name
-@app.get('/get_by_name')
-def get_student(name: str):
-    for id in students:
-        if students[id]["name"] == name:
-            return students[id]
-    return {"error": "Student not found"}
-
-# Add a new student
+# Add/Create a new student
 @app.post('/students')
-def add_student(name: str, age, sex: str, height: int):
+def add_student(name: str, age, sex: str, height: float):
     new_student = student_data.copy()
 
     id_ = len(students) + 1
@@ -64,14 +57,18 @@ def add_student(name: str, age, sex: str, height: int):
 
 # Update student
 @app.put('/students/{id}')
-def update_student(id: str, name: str, age: int, sex:str, height: int):
+def update_student(id: str, name: Optional[str] = None, age: Optional[int] = None, sex: Optional[str] = None, height: Optional[float] = None):
     student = students.get(id)
     if not student:
         return {"error": "Student not found"}
-    student['name'] = name
-    student['age'] = age
-    student['sex'] = sex
-    student['height'] = height
+    if name is not None:
+        student['name'] = name
+    if age is not None:
+        student['age'] = age
+    if sex is not None:
+        student['sex'] = sex
+    if height is not None:
+        student['height'] = height
     return {"message": "Student updated successfully", "data": student}
 
 
