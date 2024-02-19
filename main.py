@@ -26,7 +26,7 @@ student_data = {
 def home():
     return {"message: This is a student API"}
 
-# Get all books
+# Get all students
 @app.get('/students')
 def get_all_students():
     return {"message": "Successfully retrieved", "data": students}
